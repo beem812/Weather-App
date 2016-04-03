@@ -10,36 +10,40 @@ router.get('/', function(req, res, next) {
   res.render('weather', { title: 'Express' });
 });
 
-router.post('/key', function(req, res, next){
-	var googleKey="";
+router.post('/key', keyPost);
+
+function keyPost (req, res, next){
+	var weatherKey="";
 	var options={};
 	function fileReadCallback(err,data){
 		if (!err){
 			console.log('received data: ' + data);
-			googleKey=data.toString();
+			weatherKey=data.toString();
 			//within the file read callback defining the file path for the next http request
 			options = {
-				host: 'https://maps.googleapis.com',
-				path:'/maps/api/geocode/json?latlng='+req.body.latitude+','+req.body.longitude+'&key='+googleKey
+				host: 'http://api.wunderground.com',
+				path:'/api/'+weatherKey+'/geolookup/conditions/q/'+req.body.latitude+','+req.body.longitude+'.json'
 			};
-			
-			request(options.host+options.path,function(error, response, body){
-				if(!error && response.statusCode == 200){
-					var city = JSON.parse(body);
-					console.log(city.results[0].address_components[2].long_name);
-					req.mydata=city.results[0].address_components[2].long_name;
-					res.send(req.mydata);
-				}
-			});
+			console.log("here's the file path "+options.host+options.path)
+			request(options.host+options.path,googleReqCallback);
 		}else{
 			console.log(err);	
 		}
 	}
-	
+	//once google has returned the request data (the city name corresponding to the coordinates)
+	//send the city name out to the weather api.
+	function googleReqCallback (error, response, body){
+		if(!error && response.statusCode == 200){
+			var city = JSON.parse(body);
+			console.log(city);
+			req.mydata=city;
+			res.send(req.mydata);
+		}else{
+			console.log("request error");
+		}
+	}
 	//getting the api key from file and saving in to googleKey
 	fs.readFile(filePath, {encoding: 'utf-8'},fileReadCallback);
-	console.log("logging some bullshit"+req.mydata);
-	
-});
+};
 
 module.exports = router;

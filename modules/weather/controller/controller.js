@@ -77,8 +77,8 @@ app.factory('WeatherGetter', function($http, $q, $rootScope){
 
 app.controller('WeatherCtrl',['$scope','$http','WeatherGetter', function($scope,$http, WeatherGetter){
 	WeatherGetter.getLoc().then(function(result){
-		$scope.city = result;
-		console.log("checking that i got the city back "+$scope.city);
+		$scope.city = result.location.city;
+		console.log("checking that i got the weather back "+JSON.stringify($scope.city));
 	});
 	
 	
