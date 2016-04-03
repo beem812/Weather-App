@@ -78,6 +78,9 @@ app.factory('WeatherGetter', function($http, $q, $rootScope){
 app.controller('WeatherCtrl',['$scope','$http','WeatherGetter', function($scope,$http, WeatherGetter){
 	WeatherGetter.getLoc().then(function(result){
 		$scope.city = result.location.city;
+		$scope.condition = result.current_observation.weather;
+		$scope.temperature = result.current_observation.temp_f;
+		$scope.icon = result.current_observation.icon_url;
 		console.log("checking that i got the weather back "+JSON.stringify($scope.city));
 	});
 	

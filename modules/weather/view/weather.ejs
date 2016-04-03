@@ -1,13 +1,27 @@
 <head>
   <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-  <link href="weatherCss" rel="stylesheet">
+  <link href="/weather/view/weatherCss.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
   <script src="/weather/controller/controller.js"></script>
   
 </head>
-<body>
-	<div class="container" ng-app="Weather" ng-controller="WeatherCtrl" >
-		{{city}}
+<body ng-app="Weather" ng-controller="WeatherCtrl">
+	<div class="weather-box">
+		<div class="container-fluid">
+			<div class="row text-center">
+				<div class="col-xs-12">
+					{{city}}
+				</div>
+			</div>
+			<div class="row text-center">
+				<div class="col-xs-6 ">
+					{{condition}} <img class="icon" ng-src="{{icon}}">
+				</div>	
+				<div class="col-xs-6 ">
+					{{temperature}}
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
