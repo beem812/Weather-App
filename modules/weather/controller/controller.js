@@ -55,6 +55,7 @@ app.factory('WeatherGetter', function($http, $q, $rootScope){
 		//checking if there's access to browser location information
 		//if successful navigator.geolocation.getCurrentPosition gets the coordinates
 		//and sets off the chain of call backs, this is the first step.
+		//calls function success if the coordinates are available
 		if (navigator.geolocation) {
 			var geoLoc=navigator.geolocation.getCurrentPosition(success, error, options);
 			console.log("logging geoLoc "+geoLoc)
@@ -76,6 +77,28 @@ app.factory('WeatherGetter', function($http, $q, $rootScope){
 });
 
 app.controller('WeatherCtrl',['$scope','$http','WeatherGetter', function($scope,$http, WeatherGetter){
+	/* var iconVals={
+		chanceflurries: ,
+		chancerain: ,
+		chancesleet: ,
+		chancesnow: ,
+		chancetstorms: ,
+		clear: ,
+		cloudy:wi-cloudy,
+		flurries: ,
+		fog: ,
+		hazy: ,
+		mostlycloudy: ,
+		mostlysunny: ,
+		partlycloudy: ,
+		partlysunny: ,
+		sleet: ,
+		rain: ,
+		snow: ,
+		sunny: ,
+		tstorms: 
+		
+	}  come back and update these with the names of the weathe icons from https://erikflowers.github.io/weather-icons/ */
 	WeatherGetter.getLoc().then(function(result){
 		$scope.city = result.location.city;
 		$scope.condition = result.current_observation.weather;
