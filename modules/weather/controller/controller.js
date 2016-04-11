@@ -69,42 +69,41 @@ app.factory('WeatherGetter', function($http, $q, $rootScope){
 		//callback chain is done.
 		return deferred.promise;
 	};//end obj.getLoc
-	obj.getWeather = function(city){
-		
-	};//end obj.getWeather
 	
 	return obj;
 });
 
 app.controller('WeatherCtrl',['$scope','$http','WeatherGetter', function($scope,$http, WeatherGetter){
-	/* var iconVals={
-		chanceflurries: ,
-		chancerain: ,
-		chancesleet: ,
-		chancesnow: ,
-		chancetstorms: ,
-		clear: ,
-		cloudy:wi-cloudy,
-		flurries: ,
-		fog: ,
-		hazy: ,
-		mostlycloudy: ,
-		mostlysunny: ,
-		partlycloudy: ,
-		partlysunny: ,
-		sleet: ,
-		rain: ,
-		snow: ,
-		sunny: ,
-		tstorms: 
-		
-	}  come back and update these with the names of the weathe icons from https://erikflowers.github.io/weather-icons/ */
+	//mapping weather icons from https://erikflowers.github.io/weather-icons/ to 
+	//the weather icon names coming in from weather underground JSON
+	var iconVals={
+		chanceflurries: "wi-day-snow",
+		chancerain: "wi-day-showers",
+		chancesleet: "wi-day-sleet",
+		chancesnow: "wi-day-snow-wind",
+		chancetstorms: "wi-day-storm-showers",
+		clear: "wi-day-sunny",
+		cloudy: "wi-cloudy",
+		flurries: "wi-snow",
+		fog: "wi-fog",
+		hazy: "wi-day-haze",
+		mostlycloudy: "wi-day-cloudy",
+		mostlysunny: "wi-day-cloudy",
+		partlycloudy: "wi-day-cloudy",
+		partlysunny: "wi-day-cloudy",
+		sleet: "wi-sleet",
+		rain: "wi-rain",
+		snow: "wi-snow",
+		sunny: "wi-day-sunny",
+		tstorms: "wi-day-thunderstorm"
+	}; 
 	WeatherGetter.getLoc().then(function(result){
 		$scope.city = result.location.city;
 		$scope.condition = result.current_observation.weather;
 		$scope.temperature = result.current_observation.temp_f;
-		$scope.icon = result.current_observation.icon_url;
-		console.log("checking that i got the weather back "+JSON.stringify($scope.city));
+		//dynamically setting weather icon based on the icon name from the weather data
+		$scope.icon = iconVals[result.current_observation.icon];
+		//console.log("checking that i got the weather back "+JSON.stringify($scope.city));
 	});
 	
 	

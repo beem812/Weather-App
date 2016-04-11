@@ -25,24 +25,27 @@ function keyPost (req, res, next){
 				path:'/api/'+weatherKey+'/geolookup/conditions/q/'+req.body.latitude+','+req.body.longitude+'.json'
 			};
 			console.log("here's the file path "+options.host+options.path)
-			request(options.host+options.path,googleReqCallback);
+			//making request to weather underground API which will use the coordinates from our 
+			//front end request to get the closest city and return the weather information for it.
+			request(options.host+options.path,responseBuilder);
 		}else{
 			console.log(err);	
 		}
 	}
-	//once google has returned the request data (the city name corresponding to the coordinates)
-	//send the city name out to the weather api.
-	function googleReqCallback (error, response, body){
+	//
+	//
+	function responseBuilder (error, response, body){
 		if(!error && response.statusCode == 200){
-			var city = JSON.parse(body);
-			console.log(city);
-			req.mydata=city;
+			var weatherJson = JSON.parse(body);
+			console.log(weatherJson);
+			req.mydata=weatherJson;
 			res.send(req.mydata);
 		}else{
 			console.log("request error");
 		}
 	}
-	//getting the api key from file and saving in to googleKey
+	//getting the api key from file and saving in to weatherKey
+	//fileReadCallback uses the api key to make a request from Weather Underground API.
 	fs.readFile(filePath, {encoding: 'utf-8'},fileReadCallback);
 };
 
