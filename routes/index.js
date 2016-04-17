@@ -7,7 +7,7 @@ var qs = require('querystring');
 var request = require('request');
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('weather', { title: 'Express' });
+  res.render('index', { title: 'Express' });
 });
 
 router.post('/key', keyPost);

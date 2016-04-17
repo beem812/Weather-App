@@ -1,4 +1,29 @@
-var app = angular.module('Weather',[]);
+var app = angular.module('Weather',['ui.router']);
+app.config([
+'$stateProvider',
+'$urlRouterProvider',
+function($stateProvider, $urlRouterProvider) {
+
+  $stateProvider
+    .state('home', {
+      url: '/home',
+	  views: {
+		'':{
+			templateUrl: './weather/view/weather.ejs',
+			controller: 'WeatherCtrl'
+		},
+		'nav@home':{
+			templateUrl: './nav/views/nav.ejs'
+		}
+		 
+	  }
+      
+      
+    });
+
+  $urlRouterProvider.otherwise('/home');
+}]);
+
 
 app.factory('WeatherGetter', function($http, $q, $rootScope){
 
