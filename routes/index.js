@@ -5,7 +5,7 @@ var path = require('path');
 var filePath = path.join(__dirname,'keyses.txt');
 var qs = require('querystring');
 var request = require('request');
-var mongoose = require('mongoose');
+//var mongoose = require('mongoose');
 //connect to mongodb
 //mongoose.connect('mongodb://localhost/btc')
 /* GET home page. */

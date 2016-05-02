@@ -7,8 +7,9 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var testingThing= require('./serverLibs/functionTest.js');
+var mongoose = require('mongoose');
 
+//mongoose.connect('mongodb://localhost/btc');
 
 var app = express();
 
@@ -29,11 +30,6 @@ app.use('/', routes);
 app.use('/key', routes);
 app.use('/users', users);
 
-function dataGet(){
-	testingThing.rateGrabber();
-	setTimeout(dataGet,10000);
-};
-dataGet();
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
