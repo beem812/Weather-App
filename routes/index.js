@@ -16,27 +16,10 @@ router.get('/', function(req, res, next) {
 router.post('/key', keyPost);
 
 function keyPost (req, res, next){
-	var weatherKey="";
 	var options={};
-	function fileReadCallback(err,data){
-		if (!err){
-			console.log('received data: ' + data);
-			weatherKey=data.toString();
-			//within the file read callback defining the file path for the next http request
-			options = {
-				host: 'http://api.wunderground.com',
-				path:'/api/'+weatherKey+'/geolookup/conditions/q/'+req.body.latitude+','+req.body.longitude+'.json'
-			};
-			console.log("here's the file path "+options.host+options.path)
-			//making request to weather underground API which will use the coordinates from our 
-			//front end request to get the closest city and return the weather information for it.
-			request(options.host+options.path,responseBuilder);
-		}else{
-			console.log(err);	
-		}
-	}
-	//
-	//
+	
+	//callback from the weather request, dumps the entire message body into the response,
+	//could probably filter just what I want to make the message smaller 
 	function responseBuilder (error, response, body){
 		if(!error && response.statusCode == 200){
 			var weatherJson = JSON.parse(body);
@@ -47,9 +30,14 @@ function keyPost (req, res, next){
 			console.log("request error");
 		}
 	}
-	//getting the api key from file and saving in to weatherKey
-	//fileReadCallback uses the api key to make a request from Weather Underground API.
-	fs.readFile(filePath, {encoding: 'utf-8'},fileReadCallback);
+	//setting up the weather request with an environment variable api key.
+	options = {
+		host: 'http://api.wunderground.com',
+		path:'/api/'+process.env.weatherKey+'/geolookup/conditions/q/'+req.body.latitude+','+req.body.longitude+'.json'
+	};
+	//sending weather request and calling response builder to send weather 
+	//data to front end.
+	request(options.host+options.path,responseBuilder);
 };
 
 module.exports = router;
