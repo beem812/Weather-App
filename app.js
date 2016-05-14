@@ -8,11 +8,15 @@ var fs = require('fs');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var mongoose = require('mongoose');
+var https = require('https');
 
 //mongoose.connect('mongodb://localhost/btc');
-
+var options = {
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem')
+};
 var app = express();
-
+https.createServer(options, app).listen(3000);
 // view engine setup
 app.set('views', path.join(__dirname, 'modules/basePage'));
 app.set('view engine', 'ejs');
