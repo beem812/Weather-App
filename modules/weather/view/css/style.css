@@ -21,6 +21,10 @@
 		font-weight: 300;
 		line-height: 1.65em;
 	}
+	#icon{
+		padding-left: 10px;
+		padding-right: 10px;
+	}
 
 	a {
 		color: #4dac71;
