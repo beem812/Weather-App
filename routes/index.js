@@ -14,7 +14,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/key', keyPost);
-
+/*
+ * keypost function called when the weather app page is loaded
+ * it takes a location gotten from the front end and sends it to
+ * weather underground to get the weather in their area.
+ */
 function keyPost (req, res, next){
 	var options={};
 	
@@ -35,6 +39,7 @@ function keyPost (req, res, next){
 		host: 'http://api.wunderground.com',
 		path:'/api/'+process.env.weatherKey+'/geolookup/conditions/q/'+req.body.latitude+','+req.body.longitude+'.json'
 	};
+	console.log(process.env.weatherKey);
 	//sending weather request and calling response builder to send weather 
 	//data to front end.
 	request(options.host+options.path,responseBuilder);
